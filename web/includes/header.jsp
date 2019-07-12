@@ -28,7 +28,7 @@ Group project
                 </div>
                 <div class="collapse navbar-collapse" id="pandaNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="index.jsp">Home</a></li>
                         <li><a href="books.jsp">Lists</a></li>
                         <li><a href="about.jsp">About us</a></li>
                         <li><a href="account.jsp"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
