@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import panda.books.business.Cart;
 
 /**
  *
@@ -30,12 +32,49 @@ public class PandaBooksController extends HttpServlet {
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
         
-        // Get current action
-        RequestHandler.setAction(request.getParameter("action"));
-        // Perform action
-        RequestHandler.executAction();
+        String url = "/index.jsp";
         
-        sc.getRequestDispatcher(RequestHandler.getUrl()).forward(request, response);
+        // Get current action
+        String action = request.getParameter("action");
+        // Perform action
+        if (action == null || "".equals(action)) {
+            // default action
+            action = "home";
+        }
+        
+        if (action.equalsIgnoreCase("home")) {
+            url = "/index.jsp";
+        } else if (action.equalsIgnoreCase("browse")) {
+            url = "/books.jsp";
+        } else if (action.equalsIgnoreCase("addToCart")) {
+            RequestHandler.addToCart(request);
+            url = "/cart.jsp";
+        } else if (action.equalsIgnoreCase("modifyCart")) {
+            RequestHandler.modifyCart(request);
+            url = "/cart.jsp";
+        } else if (action.equalsIgnoreCase("viewCart")) {
+            url = "/cart.jsp";
+        } else if (action.equalsIgnoreCase("checkout")) {
+            url = "/order.jsp";
+        } else if (action.equalsIgnoreCase("register")) {
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("login")) {
+            url = "/books.jsp";
+        } else if (action.equalsIgnoreCase("addToWishList")) {
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("viewWishlist")) {
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("addToFavorites")) {
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("logout")) {
+            url = "/index.jsp";
+        } else if (action.equalsIgnoreCase("search")) {
+            url = "/books.jsp";
+        } else if (action.equalsIgnoreCase("viewOrders")) {
+            url = "/order.jsp";
+        }
+        
+        sc.getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

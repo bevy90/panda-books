@@ -1,6 +1,7 @@
 package panda.books.business;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,8 @@ import java.util.Map;
  * Group project
  */
 public class Cart implements Serializable {
-    private Map<String, Integer> items;
+//    private Map<Book, Integer> items;
+    private Map<Book, Integer> items;
     private double total;
 
     public Cart() {
@@ -21,15 +23,15 @@ public class Cart implements Serializable {
         total = 0.0;
     }
 
-    public Cart(Map<String, Integer> items) {
+    public Cart(Map<Book, Integer> items) {
         this.items = items;
     }
 
-    public Map<String, Integer> getItems() {
+    public Map<Book, Integer> getItems() {
         return items;
     }
 
-    public void setItems(Map<String, Integer> items) {
+    public void setItems(Map<Book, Integer> items) {
         this.items = items;
     }
 
@@ -39,6 +41,14 @@ public class Cart implements Serializable {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+    
+    public void addItem(Book book, int qty) {
+        this.items.put(book, qty);
+    }
+    
+    public void removeItem(Book book) {
+        this.items.remove(book);
     }
     
 }

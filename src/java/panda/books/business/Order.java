@@ -10,15 +10,15 @@ import java.util.Map;
  * Group project
  */
 public class Order {
-     private enum Status {
+     public enum Status {
         SUBMITTED, RECEIVED, SHIPPED, DELIVERED, CANCELLED
     }
     private int orderId;
-    private Map<String, Integer> items;
+    private Map<Book, Integer> items;
     private double totalCost;
     private Status orderStatus;
 
-    public Order(int orderId, Map<String, Integer> items, double totalCost, Status orderStatus) {
+    public Order(int orderId, Map<Book, Integer> items, double totalCost, Status orderStatus) {
         this.orderId = orderId;
         this.items = items;
         this.totalCost = totalCost;
@@ -33,11 +33,11 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Map<String, Integer> getItems() {
+    public Map<Book, Integer> getItems() {
         return items;
     }
 
-    public void setItems(Map<String, Integer> items) {
+    public void setItems(Map<Book, Integer> items) {
         this.items = items;
     }
 
