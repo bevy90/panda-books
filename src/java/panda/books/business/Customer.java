@@ -15,6 +15,8 @@ import java.util.Objects;
 public class Customer implements Serializable {
     private String firstName;
     private String lastName;
+    private String userName;
+    private String password;
     private String email;
     private String billingAddress;
     private String homeAddress;
@@ -28,10 +30,13 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String homeAddress) {
+    public Customer(String firstName, String lastName, String homeAddress, String email, String password, String userName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.homeAddress = homeAddress;
+        this.email = email;
+        this.password = password;
+        this.userName = userName;
     }
 
     public String getFirstName() {

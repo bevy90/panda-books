@@ -34,10 +34,14 @@
             <label>Email
                 <input type="email" name="email" required/>
             </label>
+            
+            <label>Address
+                <input type="text" name="homeAddress" required/>
+            </label>
         </fieldset>
                 
         <label>&nbsp;</label>
-        <input type="hidden" name="action" value="login">
+        <input type="hidden" name="action" value="createAccount">
         <input type="submit" value="Create account"/>
     </form>
 </section>

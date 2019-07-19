@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import panda.books.business.Book;
 import panda.books.business.Cart;
+import panda.books.business.Customer;
 
 /**
  *
@@ -80,5 +81,44 @@ public class RequestHandler {
         session.setAttribute("cart", cart);
     }
     
+    // Account management
+    public static void createAccount(HttpServletRequest request) {
+        String fName = request.getParameter("fName");
+        String lName = request.getParameter("lName");
+        String email = request.getParameter("email");
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String homeAddress = request.getParameter("homeAddress");
+        
+        Customer customer = new Customer(fName, lName, homeAddress, email, password, userName);
+        
+        // Save information in database
+        
+        
+        // Create cookie
+        
+        HttpSession session = request.getSession();
+        session.setAttribute("customer", customer);
+    }
     
+    public static boolean login(HttpServletRequest request) {
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        
+        // Look for username (can be the user's email) and password combination in database
+        
+        // if found, create Customer object, set as session attribute then return true
+        
+        
+        // Create Cart object and set as session attribute
+        
+        // else, return false
+        return false;
+    }
+    
+    public static void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("cart");
+        session.removeAttribute("customer");
+    }
 }

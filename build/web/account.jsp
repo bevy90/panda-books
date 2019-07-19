@@ -10,11 +10,19 @@
 <c:import url="includes/header.jsp" />
 
 <c:choose>
-    <c:when test="${customer}}">
+    <c:when test="${not empty customer}">
         <p>You are logged in</p>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="logout">
+            <input type="submit" value="Logout">
+        </form>
     </c:when>
     <c:otherwise>
-        <p>You do not have an account yet</p>
+        <p>You are not logged in</p>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="login">
+            <input type="submit" value="Log in">
+        </form>
         <form action="PandaBooksController" method="post">
             <input type="hidden" name="action" value="register">
             <input type="submit" value="Register">
