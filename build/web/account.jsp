@@ -9,6 +9,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="includes/header.jsp" />
 
-<h1>Account</h1>
+<c:choose>
+    <c:when test="${customer}}">
+        <p>You are logged in</p>
+    </c:when>
+    <c:otherwise>
+        <p>You do not have an account yet</p>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="register">
+            <input type="submit" value="Register">
+        </form>
+    </c:otherwise>
+</c:choose>
 
 <c:import url="includes/footer.jsp" />

@@ -52,14 +52,12 @@ public class PandaBooksController extends HttpServlet {
         } else if (action.equalsIgnoreCase("modifyCart")) {
             RequestHandler.modifyCart(request);
             url = "/cart.jsp";
-        } else if (action.equalsIgnoreCase("viewCart")) {
-            url = "/cart.jsp";
         } else if (action.equalsIgnoreCase("checkout")) {
-            url = "/order.jsp";
+            url = "/checkout.jsp";
         } else if (action.equalsIgnoreCase("register")) {
-            url = "/account.jsp";
+            url = "/register.jsp";
         } else if (action.equalsIgnoreCase("login")) {
-            url = "/books.jsp";
+            url = "/account.jsp";
         } else if (action.equalsIgnoreCase("addToWishList")) {
             url = "/account.jsp";
         } else if (action.equalsIgnoreCase("viewWishlist")) {

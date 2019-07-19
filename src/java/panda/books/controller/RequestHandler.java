@@ -14,7 +14,8 @@ import panda.books.business.Cart;
  * Web Application Development with Java
  * Group project
  */
-public class RequestHandler {    
+public class RequestHandler {
+    // Cart management
     public static void modifyCart(HttpServletRequest request) {
         String bookId = request.getParameter("bookId");
         String qty = request.getParameter("quantity");
@@ -38,6 +39,8 @@ public class RequestHandler {
         // Will change to get the product from the database
         Book book = new Book();
         book.setTitle(bookId);
+        book.setPrice(15.00);
+        
         
         if (quantity > 0) {
             cart.addItem(book, quantity);
@@ -45,6 +48,7 @@ public class RequestHandler {
             cart.removeItem(book);
         }
         
+        cart.computeTotalCharges();
         session.setAttribute("cart", cart);
     }
     
@@ -59,17 +63,20 @@ public class RequestHandler {
         // Will change to get the product from the database
         Book book = new Book();
         book.setTitle(bookId);
+        book.setPrice(15.00);
         
         for (Map.Entry b : cart.getItems().entrySet()) {
             if (((Book) b.getKey()).getTitle().equalsIgnoreCase(bookId)) {
                 int temp = (int) b.getValue();
                 cart.addItem(book, temp+1);
+                cart.computeTotalCharges();
                 session.setAttribute("cart", cart);
                 return;
             }
         }
         
         cart.addItem(book, 1);
+        cart.computeTotalCharges();
         session.setAttribute("cart", cart);
     }
     

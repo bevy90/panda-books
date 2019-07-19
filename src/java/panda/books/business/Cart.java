@@ -1,7 +1,6 @@
 package panda.books.business;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,4 +50,8 @@ public class Cart implements Serializable {
         this.items.remove(book);
     }
     
+    public void computeTotalCharges() {
+        total = 0.0;
+        total = items.entrySet().stream().map((entry) -> entry.getKey().getPrice() * entry.getValue()).reduce(total, (accumulator, _item) -> accumulator + _item);
+    }
 }

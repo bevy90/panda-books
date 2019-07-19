@@ -15,12 +15,14 @@
         <table>
             <tr>
                 <th>Id</th>
+                <th>Price</th>
                 <th>Quantity</th>
                 <th></th>
             </tr>
             <c:forEach var="item" items="${cart.items}">
                 <tr>
                     <td>${item.getKey().title}</td>
+                    <td>${item.getKey().price * item.getValue()}</td>
                     <td>
                         <form action="PandaBooksController" method="post">
                             <input type="hidden" name="action" value="modifyCart">
@@ -39,11 +41,25 @@
                     </td>
                 </tr>
             </c:forEach>
+            <tr>
+                <td>Total</td>
+                <td>${cart.total}</td>
+            </tr>
         </table>
     </c:when>
     <c:otherwise>
         <p>Your cart is empty</p>  
     </c:otherwise>
 </c:choose>
+        
+<form action="PandaBooksController" method="post">
+  <input type="hidden" name="action" value="browse">
+  <input type="submit" value="Continue Shopping">
+</form>
+
+<form action="PandaBooksController" method="post">
+  <input type="hidden" name="action" value="checkout">
+  <input type="submit" value="Checkout">
+</form>
 
 <c:import url="includes/footer.jsp" />
