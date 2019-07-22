@@ -1,11 +1,15 @@
 package panda.books.controller;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import panda.books.business.Book;
 import panda.books.business.Cart;
 import panda.books.business.Customer;
+import panda.books.data.BookIO;
 
 /**
  *
@@ -17,8 +21,8 @@ import panda.books.business.Customer;
  */
 public class RequestHandler {
     // Cart management
-    public static void modifyCart(HttpServletRequest request) {
-        String bookId = request.getParameter("bookId");
+    public static void modifyCart(HttpServletRequest request, Connection con) throws SQLException {
+        int bookId = Integer.parseInt(request.getParameter("bookId"));
         String qty = request.getParameter("quantity");
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
@@ -38,9 +42,7 @@ public class RequestHandler {
         }
         
         // Will change to get the product from the database
-        Book book = new Book();
-        book.setTitle(bookId);
-        book.setPrice(15.00);
+        Book book = BookIO.getBookById(con, bookId);
         
         
         if (quantity > 0) {
@@ -53,8 +55,8 @@ public class RequestHandler {
         session.setAttribute("cart", cart);
     }
     
-    public static void addToCart(HttpServletRequest request) {
-        String bookId = request.getParameter("bookId");
+    public static void addToCart(HttpServletRequest request, Connection con) throws SQLException {
+        int bookId = Integer.parseInt(request.getParameter("bookId"));
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
@@ -62,12 +64,10 @@ public class RequestHandler {
         }
         
         // Will change to get the product from the database
-        Book book = new Book();
-        book.setTitle(bookId);
-        book.setPrice(15.00);
+        Book book = BookIO.getBookById(con, bookId);
         
         for (Map.Entry b : cart.getItems().entrySet()) {
-            if (((Book) b.getKey()).getTitle().equalsIgnoreCase(bookId)) {
+            if (((Book) b.getKey()).getBookId() == bookId) {
                 int temp = (int) b.getValue();
                 cart.addItem(book, temp+1);
                 cart.computeTotalCharges();
@@ -120,5 +120,53 @@ public class RequestHandler {
         HttpSession session = request.getSession();
         session.removeAttribute("cart");
         session.removeAttribute("customer");
+    }
+    
+    // Books
+
+    /**
+     *
+     * @param con
+     * @param request
+     * @param column
+     * @param value
+     * @throws SQLException
+     */
+    public static void getBooks(Connection con, HttpServletRequest request, String column, String value) throws SQLException {
+        HttpSession session = request.getSession();
+        ArrayList<Book> books;
+        if (column.equalsIgnoreCase("title")) {
+            books = BookIO.getBooksByTitle(con, value);
+        } else if (column.equalsIgnoreCase("genre")) {
+            books = BookIO.getBooksByGenre(con, value);
+        } else if (column.equalsIgnoreCase("author")) {
+            books = BookIO.getBooksByAuthor(con, value);
+        } else {
+            books = BookIO.getAll(con);
+        }
+        System.out.println(books);
+        session.setAttribute("books", books);
+    }
+    
+    /**
+     *
+     * @param con
+     * @param request
+     * @param price
+     * @throws SQLException
+     */
+    public static void getBooksByPrice(Connection con, HttpServletRequest request, double price) throws SQLException {
+        HttpSession session = request.getSession();
+        ArrayList<Book> books = BookIO.getBooksByPrice(con, price);
+        
+        session.setAttribute("books", books);
+    }
+    
+    public static void getBookById(Connection con, HttpServletRequest request) throws SQLException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        Book book = BookIO.getBookById(con, id);
+        
+        session.setAttribute("book", book);
     }
 }

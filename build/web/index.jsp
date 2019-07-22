@@ -41,7 +41,7 @@ Group project
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">Book Name</div>
-                <div class="panel-body"><img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image"></div>
+                <div class="panel-body"><img src="images/Book_TS4_Mystery.png" class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">Price
                     <form action="PandaBooksController" method="post">
                         <input type="hidden" name="bookId" value="pf03">

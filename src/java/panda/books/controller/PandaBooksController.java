@@ -1,13 +1,15 @@
 package panda.books.controller;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import panda.books.business.Cart;
+import panda.books.data.BookIO;
 
 /**
  *
@@ -27,13 +29,15 @@ public class PandaBooksController extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         ServletContext sc = getServletContext();
         
         String url = "/index.jsp";
-        
+        Connection con = BookIO.initializeDatabase();
         // Get current action
         String action = request.getParameter("action");
         // Perform action
@@ -45,12 +49,17 @@ public class PandaBooksController extends HttpServlet {
         if (action.equalsIgnoreCase("home")) {
             url = "/index.jsp";
         } else if (action.equalsIgnoreCase("browse")) {
+            RequestHandler.getBooks(con, request, "genre", "Mystery");
             url = "/books.jsp";
+        } else if (action.equalsIgnoreCase("viewBook")) {
+            System.out.println("We are viewing a book");
+            RequestHandler.getBookById(con, request);
+            url = "/book.jsp";
         } else if (action.equalsIgnoreCase("addToCart")) {
-            RequestHandler.addToCart(request);
+            RequestHandler.addToCart(request, con);
             url = "/cart.jsp";
         } else if (action.equalsIgnoreCase("modifyCart")) {
-            RequestHandler.modifyCart(request);
+            RequestHandler.modifyCart(request, con);
             url = "/cart.jsp";
         } else if (action.equalsIgnoreCase("checkout")) {
             url = "/checkout.jsp";
@@ -78,6 +87,7 @@ public class PandaBooksController extends HttpServlet {
             url = "/order.jsp";
         }
         
+        BookIO.closeConnection(con);
         sc.getRequestDispatcher(url).forward(request, response);
     }
 
@@ -93,7 +103,11 @@ public class PandaBooksController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PandaBooksController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -107,7 +121,11 @@ public class PandaBooksController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(PandaBooksController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

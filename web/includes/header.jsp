@@ -29,7 +29,7 @@ Group project
                 <div class="collapse navbar-collapse" id="pandaNavbar">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="index.jsp">Home</a></li>
-                        <li><a href="books.jsp">Lists</a></li>
+                        <li><a href="PandaBooksController?action=browse">Lists</a></li>
                         <li><a href="about.jsp">About us</a></li>
                         <li><a href="account.jsp"><span class="glyphicon glyphicon-user"></span> Your Account</a></li>
                         <li><a href="cart.jsp"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>

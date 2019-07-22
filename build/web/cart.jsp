@@ -14,7 +14,7 @@
     <c:when test="${cart.items.size() > 0}">
         <table>
             <tr>
-                <th>Id</th>
+                <th>Title</th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th></th>
@@ -26,7 +26,7 @@
                     <td>
                         <form action="PandaBooksController" method="post">
                             <input type="hidden" name="action" value="modifyCart">
-                            <input type="hidden" name="bookId" value="${item.getKey().title}">
+                            <input type="hidden" name="bookId" value="${item.getKey().bookId}">
                             <input type=text name="quantity" value="${item.getValue()}" id="quantity">
                             <input type="submit" value="Update">
                         </form>
@@ -34,7 +34,7 @@
                     <td>
                         <form action="PandaBooksController" method="post">
                             <input type="hidden" name="action" value="modifyCart">
-                            <input type="hidden" name="bookId" value="${item.getKey().title}">
+                            <input type="hidden" name="bookId" value="${item.getKey().bookId}">
                             <input type="hidden" name="quantity" value="0">
                             <input type="submit" value="Remove Item">
                         </form>
