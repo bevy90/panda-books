@@ -30,10 +30,9 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String homeAddress, String email, String password, String userName) {
+    public Customer(String firstName, String lastName, String email, String password, String userName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.homeAddress = homeAddress;
         this.email = email;
         this.password = password;
         this.userName = userName;
@@ -55,6 +54,22 @@ public class Customer implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
     public String getBillingAddress() {
         return billingAddress;
     }

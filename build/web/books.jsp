@@ -15,7 +15,7 @@
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">${book.title}</div>
-                    <a href="PandaBooksController?action=viewBook;bookId=${book.bookId}"><div class="panel-body"><img src="${book.path}" class="img-responsive" style="width:100%" alt="Image"></div></a>
+                    <a href="PandaBooksController?action=viewBook&AMP;id=${book.bookId}"><div class="panel-body"><img src="${book.path}" class="img-responsive" style="width:100%" alt="Image"></div></a>
                     <div class="panel-footer">${book.price}
                         <form action="PandaBooksController" method="post">
                             <input type="hidden" name="bookId" value="${book.bookId}">

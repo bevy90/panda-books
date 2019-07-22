@@ -10,6 +10,8 @@ import panda.books.business.Book;
 import panda.books.business.Cart;
 import panda.books.business.Customer;
 import panda.books.data.BookIO;
+import panda.books.data.CartIO;
+import panda.books.data.CustomerIO;
 
 /**
  *
@@ -26,6 +28,7 @@ public class RequestHandler {
         String qty = request.getParameter("quantity");
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
+        Customer customer = (Customer) session.getAttribute("customer");
         if (cart == null) {
             cart = new Cart();
         }
@@ -41,14 +44,20 @@ public class RequestHandler {
             quantity = 1;
         }
         
-        // Will change to get the product from the database
+        // get the book from the database
         Book book = BookIO.getBookById(con, bookId);
         
         
         if (quantity > 0) {
             cart.addItem(book, quantity);
+            if (customer != null) {
+                CartIO.updateItem(con, customer.getEmail(), bookId, quantity);
+            }
         } else if (quantity == 0) {
             cart.removeItem(book);
+            if (customer != null) {
+                CartIO.deleteItem(con, customer.getEmail(), bookId);
+            }
         }
         
         cart.computeTotalCharges();
@@ -59,17 +68,21 @@ public class RequestHandler {
         int bookId = Integer.parseInt(request.getParameter("bookId"));
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
+        Customer customer = (Customer) session.getAttribute("customer"); 
         if (cart == null) {
             cart = new Cart();
         }
         
-        // Will change to get the product from the database
+        // get the book from the database
         Book book = BookIO.getBookById(con, bookId);
         
         for (Map.Entry b : cart.getItems().entrySet()) {
             if (((Book) b.getKey()).getBookId() == bookId) {
                 int temp = (int) b.getValue();
                 cart.addItem(book, temp+1);
+                if(customer != null) {
+                    CartIO.updateItem(con, customer.getEmail(), bookId, temp+1);
+                }
                 cart.computeTotalCharges();
                 session.setAttribute("cart", cart);
                 return;
@@ -77,43 +90,64 @@ public class RequestHandler {
         }
         
         cart.addItem(book, 1);
+        if (customer != null) {
+            CartIO.addItem(con, customer.getEmail(), bookId, 1);
+        }
         cart.computeTotalCharges();
         session.setAttribute("cart", cart);
     }
     
     // Account management
-    public static void createAccount(HttpServletRequest request) {
+    public static void createAccount(HttpServletRequest request, Connection con) throws SQLException {
         String fName = request.getParameter("fName");
         String lName = request.getParameter("lName");
         String email = request.getParameter("email");
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
-        String homeAddress = request.getParameter("homeAddress");
         
-        Customer customer = new Customer(fName, lName, homeAddress, email, password, userName);
+        Customer customer = new Customer(fName, lName, email, password, userName);
         
         // Save information in database
-        
+        CustomerIO.add(con, customer);
         
         // Create cookie
         
         HttpSession session = request.getSession();
         session.setAttribute("customer", customer);
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart != null) {
+            CartIO.saveCart(con, customer.getEmail(), cart);
+        }
     }
     
-    public static boolean login(HttpServletRequest request) {
+    public static void login(HttpServletRequest request, Connection con) throws SQLException {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
+        Customer customer;
         
         // Look for username (can be the user's email) and password combination in database
-        
-        // if found, create Customer object, set as session attribute then return true
-        
+        if(userName.contains("@")) {
+            customer = CustomerIO.getCustomerByEmail(con, userName);
+        } else {
+            customer = CustomerIO.getCustomerByUsername(con, userName);
+        }
+        // if found but password do not match
+        if (customer != null && !customer.getPassword().equals(password)) {
+            customer = null;
+        }
+        HttpSession session = request.getSession();
+        session.setAttribute("customer", customer);
         
         // Create Cart object and set as session attribute
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart != null && customer != null) {
+            CartIO.saveCart(con, customer.getEmail(), cart);
+        }
+        if (customer != null) {
+            cart = CartIO.getCart(con, customer.getEmail());
+            session.setAttribute("cart", cart);
+        }
         
-        // else, return false
-        return false;
     }
     
     public static void logout(HttpServletRequest request) {

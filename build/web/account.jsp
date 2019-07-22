@@ -20,7 +20,7 @@
     <c:otherwise>
         <p>You are not logged in</p>
         <form action="PandaBooksController" method="post">
-            <input type="hidden" name="action" value="login">
+            <input type="hidden" name="action" value="accessACcount">
             <input type="submit" value="Log in">
         </form>
         <form action="PandaBooksController" method="post">

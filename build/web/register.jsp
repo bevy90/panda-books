@@ -34,10 +34,6 @@
             <label>Email
                 <input type="email" name="email" required/>
             </label>
-            
-            <label>Address
-                <input type="text" name="homeAddress" required/>
-            </label>
         </fieldset>
                 
         <label>&nbsp;</label>
