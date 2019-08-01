@@ -1,7 +1,6 @@
 <%-- 
     Document   : about
-    Created on : Jul 12, 2019, 3:04:33 PM
-    Author     : bever
+    
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

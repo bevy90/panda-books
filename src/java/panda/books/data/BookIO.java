@@ -17,12 +17,12 @@ public class BookIO {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://sql9.freemysqlhosting.net:3306/sql9299108";
-            String username = "sql9299108";
-            String password = "YNBsXhqXaq";
 //            String dbUrl = "jdbc:mysql://localhost:3306/panda_books";
-//            String username = "bev";
+//            String username = "bjeanba1";
 //            String password = "WebDevJavaProject";
+            String dbUrl = "jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ";
+            String username = "IsRSUdG6OJ";
+            String password = "xOtrfR46RH";
             connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException e) {
             System.out.println("Connection failed");
@@ -38,13 +38,13 @@ public class BookIO {
     }
     
     public static Book getBookById(Connection con, int id) throws SQLException {
-        String preparedSql = "SELECT * FROM Book WHERE bookId = ?";
+        String preparedSql = "SELECT * FROM Book WHERE book_id = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setInt(1, id);
         ResultSet book = ps.executeQuery();
         boolean bookExist = book.next();
         if (bookExist) {
-            return new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            return new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price"));
         } else {
             return null;
@@ -58,7 +58,7 @@ public class BookIO {
         ResultSet book = ps.executeQuery();
         ArrayList<Book> books = new ArrayList();
         while (book.next()) {
-            books.add(new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            books.add(new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price")));
         }
         return books;
@@ -71,7 +71,7 @@ public class BookIO {
         ResultSet book = ps.executeQuery();
         ArrayList<Book> books = new ArrayList();
         while (book.next()) {
-            books.add(new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            books.add(new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price")));
         }
         return books;
@@ -84,7 +84,7 @@ public class BookIO {
         ResultSet book = ps.executeQuery();
         ArrayList<Book> books = new ArrayList();
         while (book.next()) {
-            books.add(new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            books.add(new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price")));
         }
         return books;
@@ -97,7 +97,7 @@ public class BookIO {
         ResultSet book = ps.executeQuery();
         ArrayList<Book> books = new ArrayList();
         while (book.next()) {
-            books.add(new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            books.add(new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price")));
         }
         return books;
@@ -109,7 +109,7 @@ public class BookIO {
         ResultSet book = ps.executeQuery();
         ArrayList<Book> books = new ArrayList();
         while (book.next()) {
-            books.add(new Book(book.getInt("bookId"), book.getString("title"), book.getString("synapsis"),
+            books.add(new Book(book.getInt("book_id"), book.getString("title"), book.getString("synapsis"),
                             book.getString("author"), book.getString("genre"), book.getString("location"), book.getDouble("price")));
         }
         return books;
