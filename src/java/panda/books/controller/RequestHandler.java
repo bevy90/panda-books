@@ -4,14 +4,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import panda.books.business.Book;
 import panda.books.business.Cart;
 import panda.books.business.Customer;
 import panda.books.data.BookIO;
 import panda.books.data.CartIO;
 import panda.books.data.CustomerIO;
+import panda.books.util.MailUtil;
 
 /**
  *
@@ -117,6 +120,17 @@ public class RequestHandler {
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart != null) {
             CartIO.saveCart(con, customer.getEmail(), cart);
+        }
+        
+        // Send confirmation email
+        String to = customer.getEmail();
+        String from = "javaweb@gmail.com";
+        String subject = "Panda Books Registration";
+        String body = MailUtil.buildRegistrationMessage(customer);
+        try {
+            MailUtil.sendMail(to, from, subject, body, true);
+        } catch (MessagingException e) {
+            System.out.println(e.getMessage());
         }
     }
     
