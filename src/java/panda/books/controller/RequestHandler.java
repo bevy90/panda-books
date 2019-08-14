@@ -180,14 +180,18 @@ public class RequestHandler {
      * @param value
      * @throws SQLException
      */
-    public static void getBooks(Connection con, HttpServletRequest request, String column, String value) throws SQLException {
+    public static void getBooks(Connection con, HttpServletRequest request, String column) throws SQLException {
         HttpSession session = request.getSession();
         ArrayList<Book> books;
+        String value;
         if (column.equalsIgnoreCase("title")) {
+            value = request.getParameter("title");
             books = BookIO.getBooksByTitle(con, value);
         } else if (column.equalsIgnoreCase("genre")) {
+            value = request.getParameter("genre");
             books = BookIO.getBooksByGenre(con, value);
         } else if (column.equalsIgnoreCase("author")) {
+            value = request.getParameter("author");
             books = BookIO.getBooksByAuthor(con, value);
         } else {
             books = BookIO.getAll(con);

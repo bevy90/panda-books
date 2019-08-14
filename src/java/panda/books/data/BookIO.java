@@ -22,7 +22,7 @@ public class BookIO {
 //            String password = "WebDevJavaProject";
             String dbUrl = "jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ";
             String username = "IsRSUdG6OJ";
-            String password = "xOtrfR46RH";
+            String password = "qPdpYWjFlq";
             connection = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException e) {
             System.out.println("Connection failed");

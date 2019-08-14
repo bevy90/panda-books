@@ -37,7 +37,7 @@ public class PandaBooksController extends HttpServlet {
         ServletContext sc = getServletContext();
         
         String url = "/index.jsp";
-        Connection con = BookIO.initializeDatabase();
+        Connection con = (Connection) sc.getAttribute("connection");
         // Get current action
         String action = request.getParameter("action");
         // Perform action
@@ -49,7 +49,7 @@ public class PandaBooksController extends HttpServlet {
         if (action.equalsIgnoreCase("home")) {
             url = "/index.jsp";
         } else if (action.equalsIgnoreCase("browse")) {
-            RequestHandler.getBooks(con, request, "genre", "Mystery");
+            RequestHandler.getBooks(con, request, "genre");
             url = "/books.jsp";
         } else if (action.equalsIgnoreCase("viewBook")) {
             RequestHandler.getBookById(con, request);
@@ -87,7 +87,6 @@ public class PandaBooksController extends HttpServlet {
             url = "/order.jsp";
         }
         
-        BookIO.closeConnection(con);
         sc.getRequestDispatcher(url).forward(request, response);
     }
 

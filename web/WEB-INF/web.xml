@@ -8,6 +8,10 @@
         <servlet-name>PandaBooksController</servlet-name>
         <url-pattern>/PandaBooksController</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+        <listener-class>panda.books.util.pandaBookContextListener</listener-class>
+    </listener>
     <session-config>
         <session-timeout>
             30
