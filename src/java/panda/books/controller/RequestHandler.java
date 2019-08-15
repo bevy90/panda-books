@@ -65,6 +65,7 @@ public class RequestHandler {
         
         cart.computeTotalCharges();
         session.setAttribute("cart", cart);
+        session.setAttribute("cartSize", cart.getCartSize());
     }
     
     public static void addToCart(HttpServletRequest request, Connection con) throws SQLException {
@@ -88,6 +89,7 @@ public class RequestHandler {
                 }
                 cart.computeTotalCharges();
                 session.setAttribute("cart", cart);
+                session.setAttribute("cartSize", cart.getCartSize());
                 return;
             }
         }
@@ -98,10 +100,11 @@ public class RequestHandler {
         }
         cart.computeTotalCharges();
         session.setAttribute("cart", cart);
+        session.setAttribute("cartSize", cart.getCartSize());
     }
     
     // Account management
-    public static void createAccount(HttpServletRequest request, Connection con) throws SQLException {
+    public static boolean createAccount(HttpServletRequest request, Connection con) throws SQLException {
         String fName = request.getParameter("fName");
         String lName = request.getParameter("lName");
         String email = request.getParameter("email");
@@ -109,29 +112,35 @@ public class RequestHandler {
         String password = request.getParameter("password");
         
         Customer customer = new Customer(fName, lName, email, password, userName);
+        HttpSession session = request.getSession();
         
         // Save information in database
-        CustomerIO.add(con, customer);
+        if (CustomerIO.emailExist(con, email)) {
+            session.setAttribute("error", "This email already exists. Please login");
+            return false;
+        } else {
+            CustomerIO.add(con, customer);
+            // Create cookie
         
-        // Create cookie
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("customer", customer);
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart != null) {
-            CartIO.saveCart(con, customer.getEmail(), cart);
+            session.setAttribute("customer", customer);
+            session.removeAttribute("error");
+            Cart cart = (Cart) session.getAttribute("cart");
+            if (cart != null) {
+                CartIO.saveCart(con, customer.getEmail(), cart);
+            }
+
+            // Send confirmation email
+            String to = customer.getEmail();
+            String from = "javaweb@gmail.com";
+            String subject = "Panda Books Registration";
+            String body = MailUtil.buildRegistrationMessage(customer);
+            try {
+                MailUtil.sendMail(to, from, subject, body, true);
+            } catch (MessagingException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        
-        // Send confirmation email
-        String to = customer.getEmail();
-        String from = "javaweb@gmail.com";
-        String subject = "Panda Books Registration";
-        String body = MailUtil.buildRegistrationMessage(customer);
-        try {
-            MailUtil.sendMail(to, from, subject, body, true);
-        } catch (MessagingException e) {
-            System.out.println(e.getMessage());
-        }
+        return true;
     }
     
     public static void login(HttpServletRequest request, Connection con) throws SQLException {
@@ -168,6 +177,8 @@ public class RequestHandler {
         HttpSession session = request.getSession();
         session.removeAttribute("cart");
         session.removeAttribute("customer");
+        session.removeAttribute("cartSize");
+        session.removeAttribute("error");
     }
     
     // Books

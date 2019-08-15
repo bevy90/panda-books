@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
@@ -60,33 +61,52 @@
               <div class="nav-icons">
                     <a  href="cart.jsp">
                       <i class="fas fa-shopping-bag bag-item-count text-clipped"></i> 
-                      <span class="badge">2</span> 
+                      <span class="badge">${cartSize}</span> 
                     </a>
                 </div>
                 <!-- Form for logging in -->
                 <div class="nav-icons">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" href="" data-toggle="dropdown">
-                            <i class="fas fa-user text-clipped"></i>
-                        </a>
-                        <div class="dropdown-menu">
-                            <form action="PandaBooksController" class="p-2" text-secondary>
-                                <input type="hidden" name="action" value="login">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="userName" 
-                                    placeholder = "Enter username" required>
+                    <c:choose>
+                        <c:when test="${not empty customer}">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                                    <i class="fas fa-user text-clipped"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="PandaBooksController?action=goToAccount">My account</a>
+                                    <div class="dropdown-divider mt-0"> </div>
+                                    <form action="PandaBooksController" class="p-2" text-secondary>
+                                        <input type="hidden" name="action" value="logout">
+                                        <button type="submit" class="btn btn-bg my-2">Log out</button>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control" name='password'
-                                     placeholder = "Enter password" required>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                                    <i class="fas fa-user text-clipped"></i>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <form action="PandaBooksController" class="p-2" text-secondary>
+                                        <input type="hidden" name="action" value="login">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="userName" 
+                                            placeholder = "Enter username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name='password'
+                                             placeholder = "Enter password" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-bg my-2">Sign in</button>
+                                    </form>
+                                    <div class="dropdown-divider mt-0"> </div>
+                                    <a class="dropdown-item" href="PandaBooksController?action=register">Don't have an account? Sign up</a>
+                                    <a class="dropdown-item" href="#">Forgot password</a>
                                 </div>
-                                <button type="submit" class="btn btn-bg my-2">Sign in</button>
-                            </form>
-                            <div class="dropdown-divider mt-0"> </div>
-                            <a class="dropdown-item" href="PandaBooksController?action=register">Don't have an account? Sign up</a>
-                            <a class="dropdown-item" href="#">Forgot password</a>
-                        </div>
-                    </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 
                 <div class="nav-icons d-lg-none">

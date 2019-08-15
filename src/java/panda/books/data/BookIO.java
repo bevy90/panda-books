@@ -13,29 +13,6 @@ import panda.books.business.Book;
  * Group project
  */
 public class BookIO {
-    public static  Connection initializeDatabase() throws SQLException, ClassNotFoundException {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-//            String dbUrl = "jdbc:mysql://localhost:3306/panda_books";
-//            String username = "bjeanba1";
-//            String password = "WebDevJavaProject";
-            String dbUrl = "jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ";
-            String username = "IsRSUdG6OJ";
-            String password = "qPdpYWjFlq";
-            connection = DriverManager.getConnection(dbUrl, username, password);
-        } catch (SQLException e) {
-            System.out.println("Connection failed");
-            for (Throwable t : e) {
-                System.out.println(t);
-            }
-        }
-        return connection;
-    }
-    
-    public static void closeConnection(Connection con) throws SQLException, ClassNotFoundException {
-        con.close();
-    }
     
     public static Book getBookById(Connection con, int id) throws SQLException {
         String preparedSql = "SELECT * FROM Book WHERE book_id = ?";
@@ -132,7 +109,7 @@ public class BookIO {
     }
     
     public static int update(Connection con, String column, String newValue, int bookId) throws SQLException {
-        String preparedSql = "UPDATE Book SET " + column + " = ? WHERE bookId = ?";
+        String preparedSql = "UPDATE Book SET " + column + " = ? WHERE book_id = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setString(1, newValue);
         ps.setInt(2, bookId);
@@ -140,7 +117,7 @@ public class BookIO {
     }
     
     public static int delete(Connection con, int bookId) throws SQLException {
-        String preparedSql = "DELETE FROM Book WHERE bookId = ?";
+        String preparedSql = "DELETE FROM Book WHERE book_id = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setInt(1, bookId);
         return ps.executeUpdate();

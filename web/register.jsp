@@ -11,7 +11,9 @@
 
 <section>
     <h1 id="title">Register</h1>
-            
+    
+    <p>${error}</p>
+    
     <form action="PandaBooksController" method="post">
         <fieldset>
             <legend>Contact Information</legend>

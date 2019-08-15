@@ -23,20 +23,20 @@ import panda.books.business.Cart;
  */
 public class CartIO {
     public static Cart getCart(Connection con, String email) throws SQLException {
-        String preparedSql = "Select bookId, quantity From Cart WHERE email = ?";
+        String preparedSql = "Select book_id, quantity From Cart WHERE email = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setString(1, email);
         ResultSet book = ps.executeQuery();
         Cart cart = new Cart();
         while(book.next()) {
-            cart.addItem(BookIO.getBookById(con, book.getInt("bookId")), book.getInt("quantity"));
+            cart.addItem(BookIO.getBookById(con, book.getInt("book_id")), book.getInt("quantity"));
         }
         cart.computeTotalCharges();
         return cart;
     }
     
     public static int addItem(Connection con, String email, int bookId, int quantity) throws SQLException {
-        String preparedSql = "INSERT INTO Cart (email, bookId, quantity) VALUES (?, ?, ?)";
+        String preparedSql = "INSERT INTO Cart (email, book_id, quantity) VALUES (?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setString(1, email);
         ps.setInt(2, bookId);
@@ -49,7 +49,7 @@ public class CartIO {
      public static int saveCart(Connection con, String email, Cart cart) throws SQLException {
         int count = 0;
         if (cart != null) {
-            String preparedSql = "INSERT INTO Cart (email, bookId, quauntity) VALUES (?, ?, ?)";
+            String preparedSql = "INSERT INTO Cart (email, book_id, quantity) VALUES (?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(preparedSql);
             ps.setString(1, email);
             for (Map.Entry b : cart.getItems().entrySet()) {
@@ -62,7 +62,7 @@ public class CartIO {
     }
      
      public static int updateItem(Connection con, String email, int bookId, int quantity) throws SQLException {
-        String preparedSql = "UPDATE Cart SET quantity = ? WHERE email = ? AND bookId = ?";
+        String preparedSql = "UPDATE Cart SET quantity = ? WHERE email = ? AND book_id = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setInt(1, quantity);
         ps.setString(2, email);
@@ -71,7 +71,7 @@ public class CartIO {
      }
      
      public static int deleteItem(Connection con, String email, int bookId) throws SQLException {
-        String preparedSql = "DELETE FROm Cart WHERE email = ? AND bookId = ?";
+        String preparedSql = "DELETE From Cart WHERE email = ? AND book_id = ?";
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setString(1, email);
         ps.setInt(2, bookId);

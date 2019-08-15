@@ -24,7 +24,7 @@ public class CustomerIO {
         boolean customerExist = customer.next();
         if (customerExist) {
             return new Customer(customer.getString("fName"), customer.getString("lName"), customer.getString("email"), 
-                    customer.getString("pass"), customer.getString("username"));
+                    customer.getString("password"), customer.getString("username"));
         } else {
             return null;
         }
@@ -38,7 +38,7 @@ public class CustomerIO {
         boolean customerExist = customer.next();
         if (customerExist) {
             return new Customer(customer.getString("fName"), customer.getString("lName"), customer.getString("email"), 
-                    customer.getString("pass"), customer.getString("username"));
+                    customer.getString("password"), customer.getString("username"));
         } else {
             return null;
         }
@@ -52,7 +52,7 @@ public class CustomerIO {
         ArrayList<Customer> customers = new ArrayList();
         while (customer.next()) {
             customers.add(new Customer(customer.getString("fName"), customer.getString("lName"), customer.getString("email"), 
-                    customer.getString("pass"), customer.getString("username")));
+                    customer.getString("password"), customer.getString("username")));
         }
         return customers;
     }
@@ -65,7 +65,7 @@ public class CustomerIO {
         ArrayList<Customer> customers = new ArrayList();
         while (customer.next()) {
             customers.add(new Customer(customer.getString("fName"), customer.getString("lName"), customer.getString("email"), 
-                    customer.getString("pass"), customer.getString("username")));
+                    customer.getString("password"), customer.getString("username")));
         }
         return customers;
     }
@@ -77,13 +77,13 @@ public class CustomerIO {
         ArrayList<Customer> customers = new ArrayList();
         while (customer.next()) {
             customers.add(new Customer(customer.getString("fName"), customer.getString("lName"), customer.getString("email"), 
-                    customer.getString("pass"), customer.getString("username")));
+                    customer.getString("password"), customer.getString("username")));
         }
         return customers;
     }
     
     public static int add(Connection con, Customer customer) throws SQLException {
-        String preparedSql = "INSERT INTO Customer (fName, lName, username, email, pass) VALUES (?, ?, ?, ?, ?)";
+        String preparedSql = "INSERT INTO Customer (fName, lName, username, email, password) VALUES (?, ?, ?, ?, ?)";
         String fName = customer.getFirstName();
         String lName = customer.getLastName();
         String email = customer.getEmail();
@@ -111,5 +111,10 @@ public class CustomerIO {
         PreparedStatement ps = con.prepareStatement(preparedSql);
         ps.setString(1, email);
         return ps.executeUpdate();
+    }
+    
+    public static boolean emailExist(Connection con, String email) throws SQLException {
+        Customer cust= getCustomerByEmail(con, email);
+        return cust != null;
     }
 }

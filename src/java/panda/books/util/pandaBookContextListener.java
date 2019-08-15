@@ -4,11 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
 import panda.books.business.Book;
 import panda.books.data.BookIO;
 
@@ -27,9 +32,6 @@ public class pandaBookContextListener implements ServletContextListener {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-//            String dbUrl = "jdbc:mysql://localhost:3306/panda_books";
-//            String username = "bjeanba1";
-//            String password = "WebDevJavaProject";
             String dbUrl = "jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ";
             String username = "IsRSUdG6OJ";
             String password = "qPdpYWjFlq";
@@ -44,14 +46,15 @@ public class pandaBookContextListener implements ServletContextListener {
         }
         sc.setAttribute("connection", connection);
         
-        ArrayList<Book> books = new ArrayList();
+        List<Book> books = null;
         try {
-            books = BookIO.getBooksByGenre(connection, "Mystery");
+            ArrayList<Book> temp = BookIO.getAll(connection);
+            books = pickFeaturedBooks(temp, 4, ThreadLocalRandom.current());
         } catch (SQLException ex) {
             Logger.getLogger(pandaBookContextListener.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        sc.setAttribute("books", books);
+        sc.setAttribute("featuredBooks", books);
     }
     
     @Override
@@ -64,5 +67,18 @@ public class pandaBookContextListener implements ServletContextListener {
         } catch (SQLException ex) {
             Logger.getLogger(pandaBookContextListener.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private List<Book> pickFeaturedBooks(ArrayList<Book> books, int n, Random r) {
+        int length = books.size();
+
+        if (length < n) return null;
+        
+        for (int i = length - 1; i >= length - n; --i)
+        {
+            Collections.swap(books, i , r.nextInt(i + 1));
+        }
+ 
+        return books.subList(length - n, length);
     }
 }

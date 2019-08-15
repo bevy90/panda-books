@@ -42,6 +42,12 @@ public class Cart implements Serializable {
         this.total = total;
     }
     
+    public int getCartSize() {
+        int size = 0;
+        size = items.entrySet().stream().map((entry) -> entry.getValue()).reduce(size, (accumulator, _item) -> accumulator + _item);
+        return size;
+    }
+    
     public void addItem(Book book, int qty) {
         this.items.put(book, qty);
     }

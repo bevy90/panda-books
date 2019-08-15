@@ -68,42 +68,17 @@ Group project
            </div>
 
            <div class="row">
-               <div class="col-3 mb-2">
-                   <div class="featured-books-img mb-2">
-                     <img src="images/Book_TS4_SciFi_1.png" alt="">  
-                   </div>
-                   <a href="#">
-                       <span class="text-uppercase font-weight-bold">Book1 name</span><br>
-                       <span>Shop now</span> <i class="fas fa-caret-right"></i>
-                   </a>  
-               </div>
-               <div class="col-3 mb-2">
-                    <div class="featured-books-img mb-2">
-                      <img src="images/Book_TS4_Poetry.png" alt="">  
-                    </div>
-                    <a href="#">
-                        <span class="text-uppercase font-weight-bold">Book2 name</span><br>
-                        <span>Shop now</span> <i class="fas fa-caret-right"></i>
-                    </a>  
-                </div>
-                <div class="col-3 mb-2">
+               <c:forEach var="book" items="${featuredBooks}">
+                   <div class="col-3 mb-2">
                         <div class="featured-books-img mb-2">
-                          <img src="images/Book_TS4_Fantasy.png" alt="">  
+                          <img src="${book.path}" alt="">  
                         </div>
-                        <a href="#">
-                            <span class="text-uppercase font-weight-bold">Book3 name</span><br>
+                        <a href="PandaBooksController?action=viewBook&AMP;id=${book.bookId}">
+                            <span class="text-uppercase font-weight-bold">${book.title}</span><br>
                             <span>Shop now</span> <i class="fas fa-caret-right"></i>
                         </a>  
                     </div>
-                    <div class="col-3 mb-2">
-                            <div class="featured-books-img mb-2">
-                              <img src="images/Book_TS4_Romance_2.png" alt="">  
-                            </div>
-                            <a href="#">
-                                <span class="text-uppercase font-weight-bold">Book4 name</span><br>
-                                <span>Shop now</span> <i class="fas fa-caret-right"></i>
-                            </a>  
-                        </div>
+               </c:forEach>
            </div>
        </div>
    </section>
