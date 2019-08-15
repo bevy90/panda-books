@@ -1,7 +1,6 @@
 package panda.books.util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,22 +28,9 @@ public class pandaBookContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         ServletContext sc = event.getServletContext();
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String dbUrl = "jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ";
-            String username = "IsRSUdG6OJ";
-            String password = "qPdpYWjFlq";
-            connection = DriverManager.getConnection(dbUrl, username, password);
-        } catch (SQLException e) {
-            System.out.println("Connection failed");
-            for (Throwable t : e) {
-                System.out.println(t);
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(pandaBookContextListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        sc.setAttribute("connection", connection);
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
         
         List<Book> books = null;
         try {
@@ -53,6 +39,8 @@ public class pandaBookContextListener implements ServletContextListener {
         } catch (SQLException ex) {
             Logger.getLogger(pandaBookContextListener.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        pool.freeConnection(connection);
         
         sc.setAttribute("featuredBooks", books);
     }

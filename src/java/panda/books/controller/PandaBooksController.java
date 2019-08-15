@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import panda.books.data.BookIO;
+import panda.books.util.ConnectionPool;
 
 /**
  *
@@ -37,7 +38,9 @@ public class PandaBooksController extends HttpServlet {
         ServletContext sc = getServletContext();
         
         String url = "/index.jsp";
-        Connection con = (Connection) sc.getAttribute("connection");
+//        Connection con = (Connection) sc.getAttribute("connection");
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection con = pool.getConnection();
         // Get current action
         String action = request.getParameter("action");
         // Perform action
@@ -90,6 +93,7 @@ public class PandaBooksController extends HttpServlet {
             url = "/order.jsp";
         }
         
+        pool.freeConnection(con);
         sc.getRequestDispatcher(url).forward(request, response);
     }
 
