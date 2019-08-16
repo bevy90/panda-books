@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -240,6 +243,21 @@ public class RequestHandler {
         }
         System.out.println(books);
         session.setAttribute("books", books);
+    }
+    
+    public static void browseBooks(Connection con, HttpServletRequest request, int n, Random r) throws SQLException {
+        HttpSession session = request.getSession();
+        ArrayList<Book> books = BookIO.getAll(con);
+        int length = books.size();
+
+        if (length < n) n = length - 1;
+        
+        for (int i = length - 1; i >= length - n; --i)
+        {
+            Collections.swap(books, i , r.nextInt(i + 1));
+        }
+ 
+        session.setAttribute("books", books.subList(length - n, length));
     }
     
     /**

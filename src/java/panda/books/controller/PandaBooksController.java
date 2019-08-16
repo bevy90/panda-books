@@ -2,6 +2,7 @@ package panda.books.controller;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -54,7 +55,7 @@ public class PandaBooksController extends HttpServlet {
             RequestHandler.getBooks(con, request, "genre");
             url = "/books.jsp";
         } else if (action.equalsIgnoreCase("browse")) {
-            RequestHandler.getBooks(con, request, "");
+            RequestHandler.browseBooks(con, request, 15, ThreadLocalRandom.current());
             url = "/books.jsp";
         } else if (action.equalsIgnoreCase("viewBook")) {
             RequestHandler.getBookById(con, request);

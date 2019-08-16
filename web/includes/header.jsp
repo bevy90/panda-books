@@ -54,7 +54,7 @@
           <!-- Right hand side icons -->
           <div class="nav-icons-container d-flex justify-content-between ">
               <div class="nav-icons">
-                  <a  href="">
+                  <a  href="PandaBooksController?action=browse">
                     <i class="fas fa-search text-clipped"></i>  
                   </a>
               </div>
