@@ -15,12 +15,24 @@
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">${book.title}</div>
-                    <a href="PandaBooksController?action=viewBook&AMP;id=${book.bookId}"><div class="panel-body"><img src="${book.path}" class="img-responsive" style="width:100%" alt="Image"></div></a>
+                    <a href="PandaBooksController?action=viewBook&AMP;bookId=${book.bookId}"><div class="panel-body"><img src="${book.path}" class="img-responsive" style="width:100%" alt="Image"></div></a>
                     <div class="panel-footer">${book.price}
                         <form action="PandaBooksController" method="post">
                             <input type="hidden" name="bookId" value="${book.bookId}">
                             <input type="hidden" name="action" value="addToCart">
                             <input type="submit" value="Add To Cart">
+                        </form>
+                            
+                        <form action="PandaBooksController" method="post">
+                            <input type="hidden" name="bookId" value="${book.bookId}">
+                            <input type="hidden" name="action" value="addToFavorites">
+                            <input type="submit" value="Add To Favorite">
+                        </form>
+                            
+                        <form action="PandaBooksController" method="post">
+                            <input type="hidden" name="bookId" value="${book.bookId}">
+                            <input type="hidden" name="action" value="addToWishList">
+                            <input type="submit" value="Add To WishList">
                         </form>
                     </div>
                 </div>

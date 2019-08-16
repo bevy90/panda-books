@@ -38,7 +38,6 @@ public class PandaBooksController extends HttpServlet {
         ServletContext sc = getServletContext();
         
         String url = "/index.jsp";
-//        Connection con = (Connection) sc.getAttribute("connection");
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection con = pool.getConnection();
         // Get current action
@@ -51,11 +50,15 @@ public class PandaBooksController extends HttpServlet {
         
         if (action.equalsIgnoreCase("home")) {
             url = "/index.jsp";
-        } else if (action.equalsIgnoreCase("browse")) {
+        } else if (action.equalsIgnoreCase("browseGenre")) {
             RequestHandler.getBooks(con, request, "genre");
+            url = "/books.jsp";
+        } else if (action.equalsIgnoreCase("browse")) {
+            RequestHandler.getBooks(con, request, "");
             url = "/books.jsp";
         } else if (action.equalsIgnoreCase("viewBook")) {
             RequestHandler.getBookById(con, request);
+            RequestHandler.addRecent(con, request);
             url = "/book.jsp";
         } else if (action.equalsIgnoreCase("addToCart")) {
             RequestHandler.addToCart(request, con);
@@ -65,6 +68,9 @@ public class PandaBooksController extends HttpServlet {
             url = "/cart.jsp";
         } else if (action.equalsIgnoreCase("checkout")) {
             url = "/checkout.jsp";
+        } else if (action.equalsIgnoreCase("order")) {
+            RequestHandler.processOrder(request, con);
+            url = "/order.jsp";
         } else if (action.equalsIgnoreCase("register")) {
             url = "/register.jsp";
         } else if (action.equalsIgnoreCase("createAccount")) {
@@ -82,10 +88,16 @@ public class PandaBooksController extends HttpServlet {
         } else if (action.equalsIgnoreCase("goToAccount")) {
             url = "/account.jsp";
         } else if (action.equalsIgnoreCase("addToWishList")) {
-            url = "/account.jsp";
-        } else if (action.equalsIgnoreCase("viewWishlist")) {
+            RequestHandler.addToWishList(con, request);
             url = "/account.jsp";
         } else if (action.equalsIgnoreCase("addToFavorites")) {
+            RequestHandler.addFavoriteBook(con, request);
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("removeFromFavorites")) {
+            RequestHandler.removeFromFavotite(con, request);
+            url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("removeFromWishList")) {
+            RequestHandler.removeFromWishList(con, request);
             url = "/account.jsp";
         } else if (action.equalsIgnoreCase("search")) {
             url = "/books.jsp";

@@ -19,6 +19,18 @@
                 <input type="hidden" name="action" value="addToCart">
                 <input type="submit" value="Add To Cart">
             </form>
+                
+            <form action="PandaBooksController" method="post">
+                <input type="hidden" name="bookId" value="${book.bookId}">
+                <input type="hidden" name="action" value="addToFavorite">
+                <input type="submit" value="Add To Favorite">
+            </form>
+                            
+            <form action="PandaBooksController" method="post">
+                <input type="hidden" name="bookId" value="${book.bookId}">
+                <input type="hidden" name="action" value="addToWishList">
+                <input type="submit" value="Add To WishList">
+            </form>
         </div>
     </div>
     <p>${book.description}</p>

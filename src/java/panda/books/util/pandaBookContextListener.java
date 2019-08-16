@@ -47,14 +47,7 @@ public class pandaBookContextListener implements ServletContextListener {
     
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        ServletContext sc = event.getServletContext();
         
-        Connection connection = (Connection) sc.getAttribute("connection");
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(pandaBookContextListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     private List<Book> pickFeaturedBooks(ArrayList<Book> books, int n, Random r) {

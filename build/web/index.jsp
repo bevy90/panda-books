@@ -73,7 +73,7 @@ Group project
                         <div class="featured-books-img mb-2">
                           <img src="${book.path}" alt="">  
                         </div>
-                        <a href="PandaBooksController?action=viewBook&AMP;id=${book.bookId}">
+                        <a href="PandaBooksController?action=viewBook&AMP;bookId=${book.bookId}">
                             <span class="text-uppercase font-weight-bold">${book.title}</span><br>
                             <span>Shop now</span> <i class="fas fa-caret-right"></i>
                         </a>  

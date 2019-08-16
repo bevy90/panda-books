@@ -33,13 +33,13 @@
                       <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Children's">Children's</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Fantasy">Fantasy</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Mystery">Mystery</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Non-Fiction">Non-Fiction</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Poetry">Poetry</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=Romance">Romance</a>
-                                <a class="dropdown-item" href="PandaBooksController?action=browse&amp;genre=SCI-FI">Sci-Fi</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Children's">Children's</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Fantasy">Fantasy</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Mystery">Mystery</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Non-Fiction">Non-Fiction</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Poetry">Poetry</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=Romance">Romance</a>
+                                <a class="dropdown-item" href="PandaBooksController?action=browseGenre&amp;genre=SCI-FI">Sci-Fi</a>
                             </div>
                      </li>
                       <li class="nav-item">

@@ -3,6 +3,7 @@ package panda.books.controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +12,11 @@ import javax.servlet.http.HttpSession;
 import panda.books.business.Book;
 import panda.books.business.Cart;
 import panda.books.business.Customer;
+import panda.books.business.Order;
 import panda.books.data.BookIO;
 import panda.books.data.CartIO;
 import panda.books.data.CustomerIO;
+import panda.books.data.OrderIO;
 import panda.books.util.MailUtil;
 
 /**
@@ -103,6 +106,35 @@ public class RequestHandler {
         session.setAttribute("cartSize", cart.getCartSize());
     }
     
+    public static void processOrder(HttpServletRequest request, Connection con) throws SQLException {
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        Customer customer = (Customer) session.getAttribute("customer");
+        long millis = System.currentTimeMillis(); 
+        Date date = new Date(millis);
+        Order order = new Order(date);
+        
+        // Add the items to an order
+        order.setItems(cart.getItems());
+        order.setTotalCost(cart.getTotal());
+        customer.addCurrentOrder(order);
+        
+        // Remove the items from the cart and add to order
+        ArrayList<Book> books = new ArrayList();
+        for(Map.Entry entry : cart.getItems().entrySet()) {
+            Book book = (Book) entry.getKey();
+            OrderIO.addItem(con, customer.getEmail(), book.getBookId(), (int) entry.getValue(), date, Order.getCount());
+            books.add(book);
+        }
+        for(Book book : books) {
+            cart.removeItem(book);
+            CartIO.deleteItem(con, customer.getEmail(), book.getBookId());
+        }
+        session.setAttribute("cart", cart);
+        session.setAttribute("customer", customer);
+        session.setAttribute("order", order);
+    }
+    
     // Account management
     public static boolean createAccount(HttpServletRequest request, Connection con) throws SQLException {
         String fName = request.getParameter("fName");
@@ -188,7 +220,6 @@ public class RequestHandler {
      * @param con
      * @param request
      * @param column
-     * @param value
      * @throws SQLException
      */
     public static void getBooks(Connection con, HttpServletRequest request, String column) throws SQLException {
@@ -226,10 +257,61 @@ public class RequestHandler {
     }
     
     public static void getBookById(Connection con, HttpServletRequest request) throws SQLException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("bookId"));
         HttpSession session = request.getSession();
         Book book = BookIO.getBookById(con, id);
         
         session.setAttribute("book", book);
+    }
+    
+    public static void addFavoriteBook(Connection con, HttpServletRequest request) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        int id = Integer.parseInt(request.getParameter("bookId"));
+        Book book = BookIO.getBookById(con, id);
+        customer.addFavoriteBook(book);
+        CustomerIO.addFavorite(con, Integer.toString(book.getBookId()), customer.getEmail());
+        session.setAttribute("customer", customer);
+    }
+    
+    public static void removeFromFavotite(Connection con, HttpServletRequest request) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        int id = Integer.parseInt(request.getParameter("bookId"));
+        Book book = BookIO.getBookById(con, id);
+        customer.removeFavoriteBook(book);
+        CustomerIO.removeFavorite(con, Integer.toString(book.getBookId()), customer.getEmail());
+        session.setAttribute("customer", customer);
+    }
+    
+    
+    public static void addToWishList(Connection con, HttpServletRequest request) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        int id = Integer.parseInt(request.getParameter("bookId"));
+        Book book = BookIO.getBookById(con, id);
+        customer.addToWishList(book);
+        CustomerIO.addToWishList(con, Integer.toString(book.getBookId()), customer.getEmail());
+        session.setAttribute("customer", customer);
+    }
+    
+    public static void removeFromWishList(Connection con, HttpServletRequest request) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        int id = Integer.parseInt(request.getParameter("bookId"));
+        Book book = BookIO.getBookById(con, id);
+        customer.removeFromWishList(book);
+        CustomerIO.removeFromWishList(con, Integer.toString(book.getBookId()), customer.getEmail());
+        session.setAttribute("customer", customer);
+    }
+    
+    public static void addRecent(Connection con, HttpServletRequest request) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        int id = Integer.parseInt(request.getParameter("bookId"));
+        Book book = BookIO.getBookById(con, id);
+        customer.addRecentVisit(book);
+        CustomerIO.addRecent(con, Integer.toString(book.getBookId()), customer.getEmail());
+        session.setAttribute("customer", customer);
     }
 }

@@ -6,6 +6,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import panda.books.business.Book;
 import panda.books.business.Customer;
+import panda.books.business.Order;
 
 /**
  *
@@ -53,12 +54,12 @@ public class MailUtil {
         transport.close();
     }
     
-    public static String buildCheckoutMessage(Customer customer) {
+    public static String buildCheckoutMessage(Customer customer, Order order) {
         StringBuilder html = new StringBuilder();
         html.append("<h1 style=\"text-align: center\">Order Confirmation</h1><p>");
         html.append(customer.getFirstName());
         html.append(", your order has been placed. Here are the details of your order</p>");
-        for (Map.Entry mapElement : customer.getOrder().getItems().entrySet()) {
+        for (Map.Entry mapElement : order.getItems().entrySet()) {
             Book book = (Book) mapElement.getKey();
             double price = (int) mapElement.getValue() * book.getPrice();
             html.append("<tr><td>");
@@ -70,7 +71,7 @@ public class MailUtil {
         }
         
         html.append("<tr><td>Total</td><td>");
-        html.append(customer.getOrder().getTotalCost());
+        html.append(order.getTotalCost());
         html.append("</td></tr></table>");
         return html.toString();
     }

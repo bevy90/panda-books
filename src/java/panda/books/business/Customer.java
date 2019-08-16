@@ -3,6 +3,7 @@ package panda.books.business;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
+import panda.books.data.BookIO;
 
 /**
  *
@@ -25,7 +26,8 @@ public class Customer implements Serializable {
     private ArrayList<Book> wishList;
     private ArrayList<Book> recentVisit;
     private Cart cart;
-    private Order order;
+    private ArrayList<Order> currentOrders;
+    private ArrayList<Order> pastOrders;
 
     public Customer() {
     }
@@ -36,6 +38,11 @@ public class Customer implements Serializable {
         this.email = email;
         this.password = password;
         this.userName = userName;
+        this.currentOrders = new ArrayList();
+        this.pastOrders = new ArrayList();
+        this.favoriteBooks = new ArrayList();
+        this.wishList = new ArrayList();
+        this.recentVisit = new ArrayList();
     }
 
     public String getFirstName() {
@@ -101,6 +108,14 @@ public class Customer implements Serializable {
     public void setFavoriteBooks(ArrayList<Book> favoriteBooks) {
         this.favoriteBooks = favoriteBooks;
     }
+    
+    public void addFavoriteBook(Book book) {
+        this.favoriteBooks.add(book);
+    }
+    
+    public void removeFavoriteBook(Book book) {
+        this.favoriteBooks.remove(book);
+    }
 
     public ArrayList<Book> getWishList() {
         return wishList;
@@ -109,6 +124,14 @@ public class Customer implements Serializable {
     public void setWishList(ArrayList<Book> wishList) {
         this.wishList = wishList;
     }
+    
+    public void addToWishList(Book book) {
+        this.wishList.add(book);
+    }
+    
+    public void removeFromWishList(Book book) {
+        this.wishList.remove(book);
+    }
 
     public ArrayList<Book> getRecentVisit() {
         return recentVisit;
@@ -116,6 +139,10 @@ public class Customer implements Serializable {
 
     public void setRecentVisit(ArrayList<Book> recentVisit) {
         this.recentVisit = recentVisit;
+    }
+    
+    public void addRecentVisit(Book book) {
+        this.recentVisit.add(book);
     }
 
     public Cart getCart() {
@@ -126,12 +153,24 @@ public class Customer implements Serializable {
         this.cart = cart;
     }
 
-    public Order getOrder() {
-        return order;
+    public ArrayList<Order> getCurrentOrders() {
+        return currentOrders;
+    }
+    
+    public ArrayList<Order> getPastOrders() {
+        return pastOrders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void addPastOrder(Order order) {
+        this.pastOrders.add(order);
+    }
+    
+    public void addCurrentOrder(Order order) {
+        this.currentOrders.add(order);
+    }
+    
+    public void removeCurrentOrder(Order order) {
+        this.currentOrders.remove(order);
     }
 
     public String getEmail() {
@@ -155,7 +194,8 @@ public class Customer implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.wishList);
         hash = 97 * hash + Objects.hashCode(this.recentVisit);
         hash = 97 * hash + Objects.hashCode(this.cart);
-        hash = 97 * hash + Objects.hashCode(this.order);
+        hash = 97 * hash + Objects.hashCode(this.pastOrders);
+        hash = 97 * hash + Objects.hashCode(this.currentOrders);
         return hash;
     }
 
