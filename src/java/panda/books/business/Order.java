@@ -1,8 +1,3 @@
-package panda.books.business;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -11,6 +6,13 @@ import java.util.Map;
  * Web Application Development with Java
  * Group project
  */
+
+package panda.books.business;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Order {
     private static int count = 1;
      public enum Status {

@@ -1,3 +1,10 @@
+<%-- 
+    Document   : header
+    Johns Hopkins University
+    Web Application Development with Java
+    Group project
+--%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
@@ -43,7 +50,7 @@
                             </div>
                      </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="#">New Arrivals</a>
+                            <a class="nav-link" href="about.jsp">About</a>
                       </li>
                       
                       
@@ -61,7 +68,7 @@
               <div class="nav-icons">
                     <a  href="cart.jsp">
                       <i class="fas fa-shopping-bag bag-item-count text-clipped"></i> 
-                      <span class="badge">${cartSize}</span> 
+                      <span class="badge">${empty cartSize ? 0 : cartSize}</span> 
                     </a>
                 </div>
                 <!-- Form for logging in -->

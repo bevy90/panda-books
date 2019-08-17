@@ -1,3 +1,11 @@
+/**
+ *
+ * @author Beverly Jean-Baptiste
+ * 
+ * Johns Hopkins University
+ * Web Application Development with Java
+ * Group project
+ */
 package panda.books.controller;
 
 import java.io.IOException;
@@ -10,17 +18,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import panda.books.data.BookIO;
+
 import panda.books.util.ConnectionPool;
 
-/**
- *
- * @author Beverly Jean-Baptiste
- * 
- * Johns Hopkins University
- * Web Application Development with Java
- * Group project
- */
 public class PandaBooksController extends HttpServlet {
 
     /**

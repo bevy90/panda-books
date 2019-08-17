@@ -1,13 +1,3 @@
-package panda.books.data;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.Date;
-import panda.books.business.Order;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -16,6 +6,17 @@ import panda.books.business.Order;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.Date;
+
+import panda.books.business.Order;
+
 public class OrderIO {
     public static ArrayList<Order> getCurrentOrders(Connection con, String email) throws SQLException {
         String preparedSql = "Select order_id, book_id, order_date, status, status_date, quantity From Purchase WHERE email = ? AND status != ?";

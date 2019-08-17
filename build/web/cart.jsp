@@ -46,20 +46,22 @@
                 <td>${cart.total}</td>
             </tr>
         </table>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="browse">
+            <input type="submit" value="Continue Shopping">
+        </form>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="checkout">
+            <input type="submit" value="Checkout">
+        </form>
     </c:when>
     <c:otherwise>
-        <p>Your cart is empty</p>  
+        <p>Your cart is empty</p>
+        <form action="PandaBooksController" method="post">
+            <input type="hidden" name="action" value="browse">
+            <input type="submit" value="Shop books">
+        </form>
     </c:otherwise>
 </c:choose>
-        
-<form action="PandaBooksController" method="post">
-  <input type="hidden" name="action" value="browse">
-  <input type="submit" value="Continue Shopping">
-</form>
-
-<form action="PandaBooksController" method="post">
-  <input type="hidden" name="action" value="checkout">
-  <input type="submit" value="Checkout">
-</form>
 
 <c:import url="includes/footer.jsp" />

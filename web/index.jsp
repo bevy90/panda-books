@@ -1,10 +1,12 @@
+<%-- 
+    Document   : index
+    Johns Hopkins University
+    Web Application Development with Java
+    Group project
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-Johns Hopkins University
-Web Application Development with Java
-Group project
--->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="includes/header.jsp" />
 

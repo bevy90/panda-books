@@ -1,8 +1,3 @@
-package panda.books.business;
-
-import java.io.Serializable;
-import java.util.Objects;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -11,6 +6,12 @@ import java.util.Objects;
  * Web Application Development with Java
  * Group project
  */
+
+package panda.books.business;
+
+import java.io.Serializable;
+import java.util.Objects;
+
 public class Book implements Serializable {
     // Unique identifier for a book
     private int bookId;
@@ -35,7 +36,6 @@ public class Book implements Serializable {
         genre = path = "";
         price = 0.0;
     }
-
     
     public Book(int bookId, String title, String description, String author, String genre, String path, double price) {
         this.bookId = bookId;

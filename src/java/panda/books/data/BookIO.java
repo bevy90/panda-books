@@ -1,9 +1,3 @@
-package panda.books.data;
-
-import java.util.*;
-import java.sql.*;
-
-import panda.books.business.Book;
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -12,6 +6,13 @@ import panda.books.business.Book;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.data;
+
+import java.util.*;
+import java.sql.*;
+
+import panda.books.business.Book;
+
 public class BookIO {
     
     public static Book getBookById(Connection con, int id) throws SQLException {
@@ -93,7 +94,7 @@ public class BookIO {
     }
     
     public static int add(Connection con, Book book) throws SQLException {
-        String preparedSql = "INSERT INTO User (title, author, genre, price, synapsis) VALUES (?, ?, ?, ?, ?)";
+        String preparedSql = "INSERT INTO Book (title, author, genre, price, synapsis) VALUES (?, ?, ?, ?, ?)";
         String title = book.getTitle();
         String author = book.getAuthor();
         String genre = book.getGenre();

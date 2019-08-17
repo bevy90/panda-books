@@ -1,10 +1,3 @@
-package panda.books.business;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Objects;
-import panda.books.data.BookIO;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -13,6 +6,13 @@ import panda.books.data.BookIO;
  * Web Application Development with Java
  * Group project
  */
+
+package panda.books.business;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Customer implements Serializable {
     private String firstName;
     private String lastName;

@@ -1,13 +1,3 @@
-package panda.books.data;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import panda.books.business.Book;
-
-import panda.books.business.Customer;
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -16,6 +6,18 @@ import panda.books.business.Customer;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.data;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import panda.books.business.Book;
+
+import panda.books.business.Customer;
+
 public class CustomerIO {
     public static Customer getCustomerByEmail(Connection con, String email) throws SQLException {
         String preparedSql = "SELECT * FROM Customer WHERE email = ?";

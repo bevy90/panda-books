@@ -1,7 +1,8 @@
 <%-- 
     Document   : login
-    Created on : Jul 22, 2019, 11:21:40 AM
-    Author     : bever
+    Johns Hopkins University
+    Web Application Development with Java
+    Group project
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

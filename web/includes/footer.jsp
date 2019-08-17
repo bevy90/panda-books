@@ -1,9 +1,12 @@
+<%-- 
+    Document   : footer
+    Johns Hopkins University
+    Web Application Development with Java
+    Group project
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!--
-Johns Hopkins University
-Web Application Development with Java
-Group project
--->
+
 <!-- start footer -->
    <footer class="py-3">
        <div class="container">
