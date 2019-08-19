@@ -68,7 +68,7 @@ public class PandaBooksController extends HttpServlet {
             RequestHandler.modifyCart(request, con);
             url = "/cart.jsp";
         } else if (action.equalsIgnoreCase("checkout")) {
-            if (RequestHandler.checkout(request, con)) {
+            if (RequestHandler.checkout(request)) {
                 url = "/checkout.jsp";
             } else {
                 url = "/cart.jsp";
@@ -84,9 +84,17 @@ public class PandaBooksController extends HttpServlet {
             } else {
                 url = "/register.jsp";
             }
-        } else if (action.equalsIgnoreCase("login")) {
-            RequestHandler.login(request, con);
+        } else if(action.equalsIgnoreCase("edit")) {
+            url = "/edit.jsp";
+        } else if(action.equalsIgnoreCase("editAccount")) {
+            RequestHandler.editAccount(request, con);
             url = "/account.jsp";
+        } else if (action.equalsIgnoreCase("login")) {
+            if(RequestHandler.login(request, con)) {
+                url = "/account.jsp";
+            } else {
+                url = "/index.jsp";
+            }
         } else if (action.equalsIgnoreCase("logout")) {
             RequestHandler.logout(request);
             url = "/index.jsp";
@@ -104,9 +112,8 @@ public class PandaBooksController extends HttpServlet {
         } else if (action.equalsIgnoreCase("removeFromWishList")) {
             RequestHandler.removeFromWishList(con, request);
             url = "/account.jsp";
-        } else if (action.equalsIgnoreCase("search")) {
-            url = "/books.jsp";
         } else if (action.equalsIgnoreCase("viewOrders")) {
+            RequestHandler.getOrders(request, con);
             url = "/order.jsp";
         }
         

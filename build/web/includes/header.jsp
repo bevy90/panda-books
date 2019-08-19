@@ -95,6 +95,9 @@
                                     <i class="fas fa-user text-clipped"></i>
                                 </a>
                                 <div class="dropdown-menu">
+                                    <c:if test="${not empty loginError}">
+                                        <p class="alert alert-warning">${loginError}</p>
+                                    </c:if>
                                     <form action="PandaBooksController" class="p-2" text-secondary>
                                         <input type="hidden" name="action" value="login">
                                         <div class="form-group">

@@ -18,7 +18,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-                                <p>${checkoutError}</p>
+                                <c:if test="${not empty checkoutError}">
+                                    <p class="alert alert-warning">${checkoutError}</p>
+                                </c:if>
                                 <!-- Shopping cart table -->
                                 <div class="table-responsive">
                                     <table class="table">

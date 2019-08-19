@@ -11,6 +11,8 @@ package panda.books.business;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Customer implements Serializable {
@@ -26,8 +28,7 @@ public class Customer implements Serializable {
     private ArrayList<Book> wishList;
     private ArrayList<Book> recentVisit;
     private Cart cart;
-    private ArrayList<Order> currentOrders;
-    private ArrayList<Order> pastOrders;
+    private Map<Integer, Order> orders;
 
     public Customer() {
     }
@@ -38,8 +39,7 @@ public class Customer implements Serializable {
         this.email = email;
         this.password = password;
         this.userName = userName;
-        this.currentOrders = new ArrayList();
-        this.pastOrders = new ArrayList();
+        this.orders = new HashMap();
         this.favoriteBooks = new ArrayList();
         this.wishList = new ArrayList();
         this.recentVisit = new ArrayList();
@@ -153,24 +153,16 @@ public class Customer implements Serializable {
         this.cart = cart;
     }
 
-    public ArrayList<Order> getCurrentOrders() {
-        return currentOrders;
-    }
-    
-    public ArrayList<Order> getPastOrders() {
-        return pastOrders;
+    public Map<Integer, Order> getOrders() {
+        return orders;
     }
 
-    public void addPastOrder(Order order) {
-        this.pastOrders.add(order);
+    public void setOrders(Map<Integer, Order> orders) {
+        this.orders = orders;
     }
     
-    public void addCurrentOrder(Order order) {
-        this.currentOrders.add(order);
-    }
-    
-    public void removeCurrentOrder(Order order) {
-        this.currentOrders.remove(order);
+    public void addOrder(int id, Order order) {
+        this.orders.put(id, order);
     }
 
     public String getEmail() {
@@ -194,8 +186,7 @@ public class Customer implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.wishList);
         hash = 97 * hash + Objects.hashCode(this.recentVisit);
         hash = 97 * hash + Objects.hashCode(this.cart);
-        hash = 97 * hash + Objects.hashCode(this.pastOrders);
-        hash = 97 * hash + Objects.hashCode(this.currentOrders);
+        hash = 97 * hash + Objects.hashCode(this.orders);
         return hash;
     }
 

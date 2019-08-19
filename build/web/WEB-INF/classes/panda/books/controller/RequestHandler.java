@@ -114,26 +114,32 @@ public class RequestHandler {
         // Add the items to an order
         order.setItems(cart.getItems());
         order.setTotalCost(cart.getTotal());
-        customer.addCurrentOrder(order);
+        customer.addOrder(order.getOrderId(), order);
         
         // Remove the items from the cart and add to order
         ArrayList<Book> books = new ArrayList();
         for(Map.Entry entry : cart.getItems().entrySet()) {
             Book book = (Book) entry.getKey();
-            OrderIO.addItem(con, customer.getEmail(), book.getBookId(), (int) entry.getValue(), date, Order.getCount());
-            books.add(book);
-        }
-        for(Book book : books) {
+            OrderIO.addItem(con, customer.getEmail(), book.getBookId(), (int) entry.getValue(), date);
             cart.removeItem(book);
             CartIO.deleteItem(con, customer.getEmail(), book.getBookId());
         }
         session.setAttribute("cart", cart);
         session.setAttribute("cartSize", cart.getCartSize());
         session.setAttribute("customer", customer);
-        session.setAttribute("order", order);
+        session.setAttribute("orders", customer.getOrders());
     }
     
-    public static boolean checkout(HttpServletRequest request, Connection con) {
+    public static void getOrders(HttpServletRequest request, Connection con) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String email = customer.getEmail();
+        Map<Integer, Order> orders = OrderIO.getOrders(con, email);
+        
+        session.setAttribute("orders", orders);
+    }
+    
+    public static boolean checkout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
         if(customer == null) {
@@ -163,8 +169,6 @@ public class RequestHandler {
         } else {
             CustomerIO.add(con, customer);
             
-            // Create cookie
-        
             session.setAttribute("customer", customer);
             session.removeAttribute("error");
             Cart cart = (Cart) session.getAttribute("cart");
@@ -186,9 +190,24 @@ public class RequestHandler {
         return true;
     }
     
-    public static void login(HttpServletRequest request, Connection con) throws SQLException {
+    public static void editAccount(HttpServletRequest request, Connection con) throws SQLException {
+        String fName = request.getParameter("fName");
+        String lName = request.getParameter("lName");
+        String userName = request.getParameter("userName");
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String email = customer.getEmail();
+        CustomerIO.update(con, "fName", fName, email);
+        CustomerIO.update(con, "lName", lName, email);
+        CustomerIO.update(con, "username", userName, email);
+        customer = CustomerIO.getCustomerByEmail(con, email);
+        session.setAttribute("customer", customer);
+    }
+    
+    public static boolean login(HttpServletRequest request, Connection con) throws SQLException {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
         Customer customer;
         
         // Look for username (can be the user's email) and password combination in database
@@ -197,24 +216,30 @@ public class RequestHandler {
         } else {
             customer = CustomerIO.getCustomerByUsername(con, userName);
         }
-        // if found but password do not match
-        if (customer != null && !customer.getPassword().equals(password)) {
-            customer = null;
+        if (customer == null) {
+            session.setAttribute("loginError", "Bad login/password combination");
+            return false;
         }
-        HttpSession session = request.getSession();
+        
+        // if found but password do not match
+        if (!customer.getPassword().equals(password)) {
+            session.setAttribute("loginError", "Bad login/password combination");
+            return false;
+        }
+        
         session.setAttribute("customer", customer);
         
         // Create Cart object and set as session attribute
         Cart cart = (Cart) session.getAttribute("cart");
-        if (cart != null && customer != null) {
+        if (cart != null) {
             CartIO.saveCart(con, customer.getEmail(), cart);
         }
-        if (customer != null) {
-            cart = CartIO.getCart(con, customer.getEmail());
-            session.setAttribute("cart", cart);
-            session.setAttribute("cartSize", cart.getCartSize());
-        }
-        
+        cart = CartIO.getCart(con, customer.getEmail());
+        session.setAttribute("cart", cart);
+        session.setAttribute("cartSize", cart.getCartSize());
+        session.removeAttribute("checkoutError");
+        session.removeAttribute("loginError");
+        return true;
     }
     
     public static void logout(HttpServletRequest request) {
@@ -223,6 +248,8 @@ public class RequestHandler {
         session.removeAttribute("customer");
         session.removeAttribute("cartSize");
         session.removeAttribute("error");
+        session.removeAttribute("checkoutError");
+        session.removeAttribute("loginError");
     }
     
     // Books

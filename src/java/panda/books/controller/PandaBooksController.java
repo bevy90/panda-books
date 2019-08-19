@@ -90,8 +90,11 @@ public class PandaBooksController extends HttpServlet {
             RequestHandler.editAccount(request, con);
             url = "/account.jsp";
         } else if (action.equalsIgnoreCase("login")) {
-            RequestHandler.login(request, con);
-            url = "/account.jsp";
+            if(RequestHandler.login(request, con)) {
+                url = "/account.jsp";
+            } else {
+                url = "/index.jsp";
+            }
         } else if (action.equalsIgnoreCase("logout")) {
             RequestHandler.logout(request);
             url = "/index.jsp";

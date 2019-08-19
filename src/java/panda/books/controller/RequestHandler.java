@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import javax.mail.MessagingException;
@@ -205,9 +204,10 @@ public class RequestHandler {
         session.setAttribute("customer", customer);
     }
     
-    public static void login(HttpServletRequest request, Connection con) throws SQLException {
+    public static boolean login(HttpServletRequest request, Connection con) throws SQLException {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
         Customer customer;
         
         // Look for username (can be the user's email) and password combination in database
@@ -216,25 +216,30 @@ public class RequestHandler {
         } else {
             customer = CustomerIO.getCustomerByUsername(con, userName);
         }
-        // if found but password do not match
-        if (customer != null && !customer.getPassword().equals(password)) {
-            customer = null;
+        if (customer == null) {
+            session.setAttribute("loginError", "Bad login/password combination");
+            return false;
         }
-        HttpSession session = request.getSession();
+        
+        // if found but password do not match
+        if (!customer.getPassword().equals(password)) {
+            session.setAttribute("loginError", "Bad login/password combination");
+            return false;
+        }
+        
         session.setAttribute("customer", customer);
         
         // Create Cart object and set as session attribute
         Cart cart = (Cart) session.getAttribute("cart");
-        if (cart != null && customer != null) {
+        if (cart != null) {
             CartIO.saveCart(con, customer.getEmail(), cart);
         }
-        if (customer != null) {
-            cart = CartIO.getCart(con, customer.getEmail());
-            session.setAttribute("cart", cart);
-            session.setAttribute("cartSize", cart.getCartSize());
-            session.removeAttribute("checkoutError");
-        }
-        
+        cart = CartIO.getCart(con, customer.getEmail());
+        session.setAttribute("cart", cart);
+        session.setAttribute("cartSize", cart.getCartSize());
+        session.removeAttribute("checkoutError");
+        session.removeAttribute("loginError");
+        return true;
     }
     
     public static void logout(HttpServletRequest request) {
@@ -243,6 +248,8 @@ public class RequestHandler {
         session.removeAttribute("customer");
         session.removeAttribute("cartSize");
         session.removeAttribute("error");
+        session.removeAttribute("checkoutError");
+        session.removeAttribute("loginError");
     }
     
     // Books
