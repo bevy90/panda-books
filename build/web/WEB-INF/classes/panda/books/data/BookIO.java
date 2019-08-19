@@ -1,9 +1,3 @@
-package panda.books.data;
-
-import java.util.*;
-import java.sql.*;
-
-import panda.books.business.Book;
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -12,6 +6,13 @@ import panda.books.business.Book;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.data;
+
+import java.util.*;
+import java.sql.*;
+
+import panda.books.business.Book;
+
 public class BookIO {
     
     public static Book getBookById(Connection con, int id) throws SQLException {

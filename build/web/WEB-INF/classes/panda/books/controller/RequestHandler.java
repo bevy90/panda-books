@@ -1,27 +1,3 @@
-package panda.books.controller;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.Date;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import panda.books.business.Book;
-import panda.books.business.Cart;
-import panda.books.business.Customer;
-import panda.books.business.Order;
-import panda.books.data.BookIO;
-import panda.books.data.CartIO;
-import panda.books.data.CustomerIO;
-import panda.books.data.OrderIO;
-import panda.books.util.MailUtil;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -30,6 +6,24 @@ import panda.books.util.MailUtil;
  * Web Application Development with Java
  * Group project
  */
+
+package panda.books.controller;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.sql.Date;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Random;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import panda.books.business.*;
+import panda.books.data.*;
+import panda.books.util.MailUtil;
+
 public class RequestHandler {
     // Cart management
     public static void modifyCart(HttpServletRequest request, Connection con) throws SQLException {
@@ -134,8 +128,21 @@ public class RequestHandler {
             CartIO.deleteItem(con, customer.getEmail(), book.getBookId());
         }
         session.setAttribute("cart", cart);
+        session.setAttribute("cartSize", cart.getCartSize());
         session.setAttribute("customer", customer);
         session.setAttribute("order", order);
+    }
+    
+    public static boolean checkout(HttpServletRequest request, Connection con) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        if(customer == null) {
+            session.setAttribute("checkoutError", "Please register or login to checkout.");
+            return false;
+        } else {
+            session.removeAttribute("error");
+            return true;
+        }
     }
     
     // Account management
@@ -155,6 +162,7 @@ public class RequestHandler {
             return false;
         } else {
             CustomerIO.add(con, customer);
+            
             // Create cookie
         
             session.setAttribute("customer", customer);
@@ -204,6 +212,7 @@ public class RequestHandler {
         if (customer != null) {
             cart = CartIO.getCart(con, customer.getEmail());
             session.setAttribute("cart", cart);
+            session.setAttribute("cartSize", cart.getCartSize());
         }
         
     }
@@ -241,7 +250,6 @@ public class RequestHandler {
         } else {
             books = BookIO.getAll(con);
         }
-        System.out.println(books);
         session.setAttribute("books", books);
     }
     
@@ -326,10 +334,12 @@ public class RequestHandler {
     public static void addRecent(Connection con, HttpServletRequest request) throws SQLException {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
-        int id = Integer.parseInt(request.getParameter("bookId"));
-        Book book = BookIO.getBookById(con, id);
-        customer.addRecentVisit(book);
-        CustomerIO.addRecent(con, Integer.toString(book.getBookId()), customer.getEmail());
-        session.setAttribute("customer", customer);
+        if (customer != null) {
+             int id = Integer.parseInt(request.getParameter("bookId"));
+            Book book = BookIO.getBookById(con, id);
+            customer.addRecentVisit(book);
+            CustomerIO.addRecent(con, Integer.toString(book.getBookId()), customer.getEmail());
+            session.setAttribute("customer", customer);
+        }
     }
 }

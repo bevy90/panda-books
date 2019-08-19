@@ -1,9 +1,3 @@
-package panda.books.business;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -12,8 +6,14 @@ import java.util.Map;
  * Web Application Development with Java
  * Group project
  */
+
+package panda.books.business;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Cart implements Serializable {
-//    private Map<Book, Integer> items;
     private Map<Book, Integer> items;
     private double total;
 

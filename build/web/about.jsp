@@ -10,7 +10,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="includes/header.jsp" />
 
-<section>
+<section class="container">
     <h1>Web Application Development with Java Project</h1>
 
     <h3>Collaborators</h3>

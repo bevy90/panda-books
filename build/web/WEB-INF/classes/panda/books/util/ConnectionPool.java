@@ -1,11 +1,3 @@
-package panda.books.util;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import javax.sql.DataSource;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -14,6 +6,14 @@ import javax.naming.NamingException;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.util;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import javax.sql.DataSource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 public class ConnectionPool {
     private static ConnectionPool pool = null;
     private static DataSource dataSource = null;

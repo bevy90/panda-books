@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import javax.mail.MessagingException;
@@ -114,23 +115,41 @@ public class RequestHandler {
         // Add the items to an order
         order.setItems(cart.getItems());
         order.setTotalCost(cart.getTotal());
-        customer.addCurrentOrder(order);
+        customer.addOrder(order.getOrderId(), order);
         
         // Remove the items from the cart and add to order
         ArrayList<Book> books = new ArrayList();
         for(Map.Entry entry : cart.getItems().entrySet()) {
             Book book = (Book) entry.getKey();
-            OrderIO.addItem(con, customer.getEmail(), book.getBookId(), (int) entry.getValue(), date, Order.getCount());
-            books.add(book);
-        }
-        for(Book book : books) {
+            OrderIO.addItem(con, customer.getEmail(), book.getBookId(), (int) entry.getValue(), date);
             cart.removeItem(book);
             CartIO.deleteItem(con, customer.getEmail(), book.getBookId());
         }
         session.setAttribute("cart", cart);
         session.setAttribute("cartSize", cart.getCartSize());
         session.setAttribute("customer", customer);
-        session.setAttribute("order", order);
+        session.setAttribute("orders", customer.getOrders());
+    }
+    
+    public static void getOrders(HttpServletRequest request, Connection con) throws SQLException {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String email = customer.getEmail();
+        Map<Integer, Order> orders = OrderIO.getOrders(con, email);
+        
+        session.setAttribute("orders", orders);
+    }
+    
+    public static boolean checkout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        if(customer == null) {
+            session.setAttribute("checkoutError", "Please register or login to checkout.");
+            return false;
+        } else {
+            session.removeAttribute("error");
+            return true;
+        }
     }
     
     // Account management
@@ -151,8 +170,6 @@ public class RequestHandler {
         } else {
             CustomerIO.add(con, customer);
             
-            // Create cookie
-        
             session.setAttribute("customer", customer);
             session.removeAttribute("error");
             Cart cart = (Cart) session.getAttribute("cart");
@@ -172,6 +189,20 @@ public class RequestHandler {
             }
         }
         return true;
+    }
+    
+    public static void editAccount(HttpServletRequest request, Connection con) throws SQLException {
+        String fName = request.getParameter("fName");
+        String lName = request.getParameter("lName");
+        String userName = request.getParameter("userName");
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("customer");
+        String email = customer.getEmail();
+        CustomerIO.update(con, "fName", fName, email);
+        CustomerIO.update(con, "lName", lName, email);
+        CustomerIO.update(con, "username", userName, email);
+        customer = CustomerIO.getCustomerByEmail(con, email);
+        session.setAttribute("customer", customer);
     }
     
     public static void login(HttpServletRequest request, Connection con) throws SQLException {
@@ -201,6 +232,7 @@ public class RequestHandler {
             cart = CartIO.getCart(con, customer.getEmail());
             session.setAttribute("cart", cart);
             session.setAttribute("cartSize", cart.getCartSize());
+            session.removeAttribute("checkoutError");
         }
         
     }
@@ -322,10 +354,12 @@ public class RequestHandler {
     public static void addRecent(Connection con, HttpServletRequest request) throws SQLException {
         HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
-        int id = Integer.parseInt(request.getParameter("bookId"));
-        Book book = BookIO.getBookById(con, id);
-        customer.addRecentVisit(book);
-        CustomerIO.addRecent(con, Integer.toString(book.getBookId()), customer.getEmail());
-        session.setAttribute("customer", customer);
+        if (customer != null) {
+             int id = Integer.parseInt(request.getParameter("bookId"));
+            Book book = BookIO.getBookById(con, id);
+            customer.addRecentVisit(book);
+            CustomerIO.addRecent(con, Integer.toString(book.getBookId()), customer.getEmail());
+            session.setAttribute("customer", customer);
+        }
     }
 }

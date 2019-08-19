@@ -5,14 +5,11 @@
         <group>
             <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/books.jsp</file>
             <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/cart.jsp</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/src/java/panda/books/controller/RequestHandler.java</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/order.jsp</file>
+            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/register.jsp</file>
             <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/account.jsp</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/src/java/panda/books/data/CustomerIO.java</file>
             <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/includes/header.jsp</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/src/java/panda/books/business/Customer.java</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/src/java/panda/books/business/Cart.java</file>
-            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/src/java/panda/books/controller/PandaBooksController.java</file>
+            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/checkout.jsp</file>
+            <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/includes/footer.jsp</file>
             <file>file:/D:/bever/JHU/Summer%202019/Web%20Application%20Development%20with%20Java/Project/Bookstore/panda-books/web/book.jsp</file>
         </group>
     </open-files>

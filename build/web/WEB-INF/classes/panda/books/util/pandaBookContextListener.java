@@ -1,3 +1,11 @@
+/**
+ *
+ * @author Beverly Jean-Baptiste
+ * 
+ * Johns Hopkins University
+ * Web Application Development with Java
+ * Group project
+ */
 package panda.books.util;
 
 import java.sql.Connection;
@@ -16,14 +24,6 @@ import javax.servlet.ServletContextListener;
 import panda.books.business.Book;
 import panda.books.data.BookIO;
 
-/**
- *
- * @author Beverly Jean-Baptiste
- * 
- * Johns Hopkins University
- * Web Application Development with Java
- * Group project
- */
 public class pandaBookContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {

@@ -28,29 +28,24 @@ public class Order {
     
     public Order() {
         this.items = new HashMap();
-        this.orderId = count;
-        count++;
+    }
+    
+    public Order(int orderId) {
+        this.items = new HashMap();
+        this.orderId = orderId;
     }
     
     public Order(Date orderDate) {
         this.items = new HashMap();
-        this.orderId = count;
-        count++;
         this.orderStatus = Status.SUBMITTED;
         this.orderDate = orderDate;
         this.statusDate = orderDate;
     }
 
-    public Order(int orderId, Map<Book, Integer> items, double totalCost, Status orderStatus) {      
-        this.orderId = count;
-        count++;
+    public Order(int orderId, Map<Book, Integer> items, double totalCost, Status orderStatus) {
         this.items = items;
         this.totalCost = totalCost;
         this.orderStatus = orderStatus;
-    }
-    
-    public static int getCount() {
-        return count;
     }
 
     public int getOrderId() {

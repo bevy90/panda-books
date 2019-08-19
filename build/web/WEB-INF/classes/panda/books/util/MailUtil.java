@@ -1,13 +1,3 @@
-package panda.books.util;
-
-import java.util.Map;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
-import panda.books.business.Book;
-import panda.books.business.Customer;
-import panda.books.business.Order;
-
 /**
  *
  * @author Beverly Jean-Baptiste
@@ -16,6 +6,17 @@ import panda.books.business.Order;
  * Web Application Development with Java
  * Group project
  */
+package panda.books.util;
+
+import java.util.Map;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
+
+import panda.books.business.Book;
+import panda.books.business.Customer;
+import panda.books.business.Order;
+
 public class MailUtil {
     public static void sendMail(String to, String from,
             String subject, String body, boolean bodyIsHTML)
