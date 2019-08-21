@@ -75,7 +75,7 @@ public class PandaBooksController extends HttpServlet {
             }
         } else if (action.equalsIgnoreCase("order")) {
             RequestHandler.processOrder(request, con);
-            url = "/order.jsp";
+            url = "/account.jsp";
         } else if (action.equalsIgnoreCase("register")) {
             url = "/register.jsp";
         } else if (action.equalsIgnoreCase("createAccount")) {

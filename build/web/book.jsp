@@ -31,7 +31,9 @@
                         <hr>
                         <div class="product-price">$${book.price}</div>
                         <hr>
-                        <button type="submit" class="btn btn-bg my-2">Add to Cart</button>
+                        <a href="PandaBooksController?action=addToCart&AMP;bookId=${book.bookId}">
+                            <button type="submit" class="btn btn-bg my-2">Add to Cart</button>
+                        </a>
                          <c:if test="${not empty customer}">
                             <a href="PandaBooksController?action=addToWishList&AMP;bookId=${book.bookId}">
                                 <button type="button" class="btn btn-secondary" title="wishlist"> <i class="fas fa-plus-circle"></i> </button>
