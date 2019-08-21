@@ -10,37 +10,44 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="includes/header.jsp" />
 
-<section class="container">
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="card card-body mb-4 text-center">
-                <h5 class="my-0 card-title text-uppercase font-weight-bold">${book.title}</h5>
-                <a href="PandaBooksController?action=viewBook&AMP;bookId=${book.bookId}" class="card-link">
-                    <img class="card-img-bottom" src="${book.path}" class="img-responsive" style="width:100%" alt="Image">
-                </a>
-                <p class="card-text pricing-card-title font-weight-bold">$${book.price}</p>
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a href="PandaBooksController?action=addToCart&AMP;bookId=${book.bookId}" class="nav-link"><i class="fas fa-cart-plus fa-2x text-clipped"></i></a>
-                    </li>
-                    <c:if test="${not empty customer}">
-                        <li class="nav-item">
-                            <a href="PandaBooksController?action=addToFavorites&AMP;bookId=${book.bookId}" class="nav-link"><i class="fas fa-heart fa-2x text-clipped"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="PandaBooksController?action=addToWishList&AMP;bookId=${book.bookId}" class="nav-link"><i class="fas fa-plus-circle fa-2x text-clipped"></i></a>
-                        </li>
-                    </c:if>
-                </ul>
-            </div>
-        </div>
-          
-        <div class="col-sml-8">
-            <div class="card card-body mb-4">
-                <p class="card-text font-weight-normal">${book.description}</p>
+<!-- start book -->
+    <div class="container-fluid">
+        <div class="content-wrapper">	
+            <div class="item-container ">	
+                <div class="container">	
+                    <div class="col-md-12">
+                        <div class="book col-md-3 service-image-left">
+                            <p>
+                               <img class="img-responsive" src="${book.path}" alt=""></img>
+                            </p>
+                        </div>
+                                                
+                    </div>
+                            
+                    <div class="col-md-7">
+                        <span class="text-uppercase font-weight-bold pt-20">${book.title}</span>
+                        <div class="book-desc text-secondary">${book.description}</div>
+                            
+                        <hr>
+                        <div class="product-price">$${book.price}</div>
+                        <hr>
+                        <button type="submit" class="btn btn-bg my-2">Add to Cart</button>
+                         <c:if test="${not empty customer}">
+                            <a href="PandaBooksController?action=addToWishList&AMP;bookId=${book.bookId}">
+                                <button type="button" class="btn btn-secondary" title="wishlist"> <i class="fas fa-plus-circle"></i> </button>
+                            </a>
+                            <a href="PandaBooksController?action=addToFavorites&AMP;bookId=${book.bookId}">
+                                <button type="button" class="btn btn-secondary" title="favorites"> <i class="fas fa-heart"></i> </button>
+                            </a>
+                        </c:if>
+                         
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
-</section>
+    
+
+  <!-- end book -->
 
 <c:import url="includes/footer.jsp" />
