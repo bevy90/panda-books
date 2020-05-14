@@ -2,8 +2,8 @@
 <Context path="/panda-books">
     <Resource name="jdbc/panda-books" auth="Container"
         driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://remotemysql.com:3306/IsRSUdG6OJ?autoReconnect=true"
-        username="IsRSUdG6OJ" password="qPdpYWjFlq"
+        url="jdbc:mysql://localhost:3306/panda_books?autoReconnect=true"
+        username="bjeanba1" password="Nightstalker@90"
         maxActive="100" maxIdle="30" maxWait="10000"
         logAbandoned="true" removeAbandoned="true"
         removeAbandonedTimeout="60" type="javax.sql.DataSource" />
